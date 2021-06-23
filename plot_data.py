@@ -4,11 +4,14 @@ from data_model import Data, Model, Fit
 
 
 class MakePlot(object):
-    def __init__(self, Data_Object, Fit_Object):
+    def __init__(self, Data_Object, Model_Object, Fit_Object):
         # Read in the data
         self.x = Data_Object.x
         self.y = Data_Object.y
         self.yerr = Data_Object.yerr
+        self.mask = Data_Object.mask
+        
+        self.Model = Model_Object
 
         # Read in the fits from the model
         self.y_model = Fit_Object.y_model
@@ -31,6 +34,7 @@ class MakePlot(object):
             self.click_x, self.click_y = event.xdata, event.ydata
             print(f'You clicked x = {self.click_x}, y = {self.click_y}')
             self.update_mask()
+            self.update_fit()
             return
         cid = self.fig.canvas.mpl_connect('button_press_event', onclick)
 
@@ -58,8 +62,17 @@ class MakePlot(object):
         min_idx = np.argmin(distances)
         print(f'Nearest point is {(self.x[min_idx], self.y[min_idx])}')
 
-        # UPDATE THE MASK HERE WITH SOMETHING LIKE
-        # .mask[min_idx] = 0
+        #update here
+        self.mask[min_idx] = ~self.mask[min_idx]
+        
+        return self.mask
+
+    def update_fit(self):
+        New_Data = Data(self.x, self.y, self.yerr, self.mask)
+        New_Fit = Fit(New_Data, self.Model)
+        plt.close('all')
+        MakePlot(New_Data, self.Model, New_Fit)
+        
 
 
 # Quick example
@@ -79,4 +92,4 @@ fit_obj = Fit(d, m)
 print(fit_obj.y_model)
 print(fit_obj.popt)
 
-MakePlot(d, fit_obj)
+MakePlot(d, m, fit_obj)

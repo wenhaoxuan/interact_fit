@@ -3,12 +3,14 @@ from scipy.optimize import curve_fit
 
 class Data(object):
 
-    def __init__(self, x, y, yerr ):
+    def __init__(self, x, y, yerr, mask = []):
         self.x = x
         self.y = y
         self.yerr = yerr
-
-        self.mask = np.ones_like(x).astype(bool)
+        if len(mask) == 0:
+            self.mask = np.ones_like(x).astype(bool)
+        else:
+            self.mask = mask
 
 
 class Model(object):
@@ -39,8 +41,8 @@ class Fit(object):
 
         # call scipy for fit
         # [self.data.mask]
-        popt, pcov = curve_fit(self.model.func, self.data.x,
-                             self.data.y, sigma=self.data.yerr,
+        popt, pcov = curve_fit(self.model.func, self.data.x[self.data.mask],
+                             self.data.y[self.data.mask], sigma=self.data.yerr[self.data.mask],
                             p0=self.model.init_guess)
 
         # get best fit model
