@@ -1,0 +1,13 @@
+LICENSE
+README.md
+requirements.txt
+setup.py
+.vscode/launch.json
+__pycache__/data_model.cpython-39.pyc
+interact_fit/__init__.py
+interact_fit/data_model.py
+interact_fit/plot_data.py
+interact_fit.egg-info/PKG-INFO
+interact_fit.egg-info/SOURCES.txt
+interact_fit.egg-info/dependency_links.txt
+interact_fit.egg-info/top_level.txt
