@@ -22,6 +22,8 @@ class Model(object):
 
     @staticmethod
     def arbitrary_poly(x, *params):
+        # print(x)
+        # print(params)
         return sum([p*(x**i) for i, p in enumerate(params)])
         
 class Fit(object):
@@ -30,7 +32,8 @@ class Fit(object):
         self.data = Data_object
         self.model = Model_object
 
-        self.y_model = self.run_fit()
+        self.y_model, self.popt = self.run_fit()
+        
 
     def run_fit(self):
 
@@ -41,9 +44,9 @@ class Fit(object):
                             p0=self.model.init_guess)
 
         # get best fit model
-        y_model = self.model.func(popt)
+        y_model = self.model.func(self.data.x, *popt)
 
-        return y_model
+        return y_model, popt
 
 
     # def compute_chi2(self, Data_object):
@@ -56,10 +59,11 @@ y_data = x_data**2 * 5 + np.random.rand(10)
 
 y_err = np.ones_like(x_data) * 0.1
 
-guess = np.ones(4)
+guess = np.zeros(4)
 d = Data(x_data,y_data,y_err)
-m = Model(d, 'poly', guess)
+m = Model('poly', guess)
 
 fit_obj = Fit(d, m)
 
 print(fit_obj.y_model)
+print(fit_obj.popt)
