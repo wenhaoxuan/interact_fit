@@ -41,7 +41,8 @@ class MakePlot(object):
         Plots the data and the model         
         """
         plt.cla()
-        self.ax.plot(self.data.x[self.data.mask], self.data.y[self.data.mask], color='black', marker='o', ls='None')
+        self.ax.plot(self.data.x, self.data.y, color='black', marker='o', ls='None')
+        self.ax.plot(self.data.x[~self.data.mask], self.data.y[~self.data.mask], color='red', marker='x', ms=10, lw=0.1, ls='None') 
         self.ax.plot(self.fit.x_model, self.fit.y_model, color='orange', marker='None', ls='-')
         plt.draw()
           
