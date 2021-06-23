@@ -6,16 +6,14 @@ from data_model import Data, Model, Fit
 class MakePlot(object):
     def __init__(self, Data_Object, Model_Object, Fit_Object):
         # Read in the data
-        self.x = Data_Object.x
-        self.y = Data_Object.y
-        self.yerr = Data_Object.yerr
-        self.mask = Data_Object.mask
+        self.data = Data_Object
         
+        # Read in the model 
         self.Model = Model_Object
 
         # Read in the fits from the model
-        self.y_model = Fit_Object.y_model
-        self.x_model = Fit_Object.x_model
+        self.fit = Fit_Object
+
         self.setup_plot()
         self.plot_data()
         plt.show()
@@ -42,8 +40,11 @@ class MakePlot(object):
         """
         Plots the data and the model         
         """
-        self.ax.plot(self.x, self.y, color='black', marker='o', ls='None')
-        self.ax.plot(self.x_model, self.y_model, color='orange', marker='None', ls='-')
+        plt.cla()
+        self.ax.plot(self.data.x[self.data.mask], self.data.y[self.data.mask], color='black', marker='o', ls='None')
+        self.ax.plot(self.fit.x_model, self.fit.y_model, color='orange', marker='None', ls='-')
+        plt.draw()
+          
 
     def update_mask(self):
         """
@@ -54,30 +55,33 @@ class MakePlot(object):
         y_lim = self.ax.get_ylim()
         
         # Needed to scale to account for possibly different lengths of x and y axis
-        x_dist_scaled = (self.x - self.click_x)/np.abs(x_lim[1]-x_lim[0])
-        y_dist_scaled = (self.y - self.click_y)/np.abs(y_lim[1]-y_lim[0])
+        x_dist_scaled = (self.data.x - self.click_x)/np.abs(x_lim[1]-x_lim[0])
+        y_dist_scaled = (self.data.y - self.click_y)/np.abs(y_lim[1]-y_lim[0])
         distances = np.sqrt(x_dist_scaled**2 +
                             y_dist_scaled**2)
         # Find the minimum index, should correspond to closest point to where clicked
         min_idx = np.argmin(distances)
-        print(f'Nearest point is {(self.x[min_idx], self.y[min_idx])}')
+        print(f'Nearest point is {(self.data.x[min_idx], self.data.y[min_idx])}')
 
         #update here
-        self.mask[min_idx] = ~self.mask[min_idx]
+        self.data.mask[min_idx] = ~self.data.mask[min_idx]
         
-        return self.mask
+        return
 
     def update_fit(self):
-        New_Data = Data(self.x, self.y, self.yerr, self.mask)
-        New_Fit = Fit(New_Data, self.Model)
-        plt.close('all')
-        MakePlot(New_Data, self.Model, New_Fit)
+        self.fit = Fit(self.data, self.Model)
+        self.plot_data()
+
+
+        # plt.close('all')
+        # MakePlot(New_Data, self.Model, New_Fit)
         
 
 
 # Quick example
 x_data = np.linspace(1,10,10) 
 y_data = x_data**2 * 5 + np.random.rand(10)
+y_data = x_data + np.random.rand(10)
 
 # print(y_data.shape, x_data.shape)
 
