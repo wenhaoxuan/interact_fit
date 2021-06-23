@@ -32,7 +32,7 @@ class Fit(object):
         self.data = Data_object
         self.model = Model_object
 
-        self.y_model, self.popt = self.run_fit()
+        self.y_model, self.popt, self.x_model = self.run_fit()
         
 
     def run_fit(self):
@@ -44,26 +44,27 @@ class Fit(object):
                             p0=self.model.init_guess)
 
         # get best fit model
-        y_model = self.model.func(self.data.x, *popt)
+        x_model = np.linspace(np.min(self.data.x), np.max(self.data.x), 10*len(self.data.x))
+        y_model = self.model.func(x_model, *popt)
 
-        return y_model, popt
+        return y_model, popt, x_model
 
 
     # def compute_chi2(self, Data_object):
         
-# Quick example
-x_data = np.linspace(1,10,10) 
-y_data = x_data**2 * 5 + np.random.rand(10)
+# # Quick example
+# x_data = np.linspace(1,10,10) 
+# y_data = x_data**2 * 5 + np.random.rand(10)
 
-# print(y_data.shape, x_data.shape)
+# # print(y_data.shape, x_data.shape)
 
-y_err = np.ones_like(x_data) * 0.1
+# y_err = np.ones_like(x_data) * 0.1
 
-guess = np.zeros(4)
-d = Data(x_data,y_data,y_err)
-m = Model('poly', guess)
+# guess = np.zeros(4)
+# d = Data(x_data,y_data,y_err)
+# m = Model('poly', guess)
 
-fit_obj = Fit(d, m)
+# fit_obj = Fit(d, m)
 
-print(fit_obj.y_model)
-print(fit_obj.popt)
+# print(fit_obj.y_model)
+# print(fit_obj.popt)

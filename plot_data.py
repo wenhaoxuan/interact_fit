@@ -1,18 +1,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from data_model import Data, Model, Fit
 
 
 class MakePlot(object):
-    def __init__(self, Data_Object, Model_Object):
-        # # Read in the data
-        # self.x = Data_Object.x
-        # self.y = Data_Object.y
-        # self.yerr = Data_Object.yerr
+    def __init__(self, Data_Object, Fit_Object):
+        # Read in the data
+        self.x = Data_Object.x
+        self.y = Data_Object.y
+        self.yerr = Data_Object.yerr
 
-        # # Read in the fits from the model
-        # self.fit = Model_Object.fit
-        self.x = np.arange(10)
-        self.y = np.array([1, -3, 5, 6, -10, 5, 3, 8, 9, 0])
+        # Read in the fits from the model
+        self.y_model = Fit_Object.y_model
+        self.x_model = Fit_Object.x_model
         self.setup_plot()
         self.plot_data()
         plt.show()
@@ -39,6 +39,7 @@ class MakePlot(object):
         Plots the data and the model         
         """
         self.ax.plot(self.x, self.y, color='black', marker='o', ls='None')
+        self.ax.plot(self.x_model, self.y_model, color='orange', marker='None', ls='-')
 
     def update_mask(self):
         """
@@ -61,4 +62,21 @@ class MakePlot(object):
         # .mask[min_idx] = 0
 
 
-MakePlot(1, 1)
+# Quick example
+x_data = np.linspace(1,10,10) 
+y_data = x_data**2 * 5 + np.random.rand(10)
+
+# print(y_data.shape, x_data.shape)
+
+y_err = np.ones_like(x_data) * 0.1
+
+guess = np.zeros(4)
+d = Data(x_data,y_data,y_err)
+m = Model('poly', guess)
+
+fit_obj = Fit(d, m)
+
+print(fit_obj.y_model)
+print(fit_obj.popt)
+
+MakePlot(d, fit_obj)
