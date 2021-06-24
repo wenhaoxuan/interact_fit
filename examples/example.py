@@ -14,7 +14,7 @@ data_obj = Data(x_data,y_data,y_err)
 # Set the order of the polynomial to fit the data with
 poly_deg = 3
 # Generates the polynomial model that fits the data
-model_obj = Model('poly', poly_deg)
+model_obj = Model('poly', poly_deg = poly_deg)
 
 # Performs the fit
 fit_obj = Fit(data_obj, model_obj)
