@@ -1,8 +1,8 @@
 import numpy as np
 from scipy.optimize import curve_fit
 import pytest
-from data_model import Data, Model, Fit
-from plot_data import MakePlot
+from interact_fit.data_model import Data, Model, Fit
+from interact_fit.plot_data import MakePlot
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 

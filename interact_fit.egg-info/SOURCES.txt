@@ -3,9 +3,8 @@ README.md
 requirements.txt
 setup.py
 .vscode/launch.json
+.vscode/settings.json
 __pycache__/data_model.cpython-39.pyc
-dist/interact_fit-0.0.1-py3-none-any.whl
-dist/interact_fit-0.0.1.tar.gz
 examples/example.py
 interact_fit/__init__.py
 interact_fit/data_model.py

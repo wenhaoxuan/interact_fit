@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
-from data_model import Data, Model, Fit
+from interact_fit.data_model import Data, Model, Fit
 
 
 class MakePlot(object):
