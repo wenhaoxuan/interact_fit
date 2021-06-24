@@ -15,12 +15,23 @@ class Data(object):
 
 class Model(object):
 
-    def __init__(self, function_type, init_guess, poly_deg=4):
-        self.init_guess = init_guess
+    def __init__(self, function_type, init_guess=[], poly_deg=4):
+        self.poly_deg = poly_deg
+        
+        # Guess is either user input or np.ones with length of degree
+        if len(init_guess) != 0:
+            self.init_guess = init_guess
+        else:
+            self.init_guess = np.ones(self.poly_deg+1)
+        
         if function_type == 'poly':
             self.func = self.arbitrary_poly
         else:
             self.func = self.arbitrary_poly
+
+    def change_degree(self, new_degree):
+        self.poly_deg = new_degree
+        self.init_guess = np.ones(self.poly_deg+1)
 
     @staticmethod
     def arbitrary_poly(x, *params):
