@@ -72,7 +72,7 @@ class MakePlot(object):
         self.ax.plot(self.fit.x_model, self.fit.y_model, color='orange', marker='None', ls='-')
         
         # Update slider length
-        # self.poly_slider.valmax = len(self.data.x[self.data.mask])
+        self.poly_slider.valmax = len(self.data.x[self.data.mask])-1
         
         plt.draw()
           
@@ -97,7 +97,7 @@ class MakePlot(object):
         #update here
         self.data.mask[min_idx] = ~self.data.mask[min_idx]
 
-        if len(self.data.x[self.data.mask]) < self.Model.poly_deg:
+        if len(self.data.x[self.data.mask]) < self.Model.poly_deg+1:
             self.data.mask[min_idx] = ~self.data.mask[min_idx]
         
         return
