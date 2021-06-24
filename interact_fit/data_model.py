@@ -1,7 +1,18 @@
+"""Classes to deal with input data"""
 import numpy as np
 from scipy.optimize import curve_fit
 
 class Data(object):
+    """Data Storage
+
+    Stores input data
+
+    Args:
+        x (array): x data
+        y (array): y data
+        yerr (array): errors on y data
+        mask (array): True where to include data, False otherwise
+    """
 
     def __init__(self, x, y, yerr, mask = []):
         self.x = x
