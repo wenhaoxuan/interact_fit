@@ -154,6 +154,50 @@
             
   <div class="section" id="module-plot_data">
 <span id="plotting"></span><span id="plot-data"></span><h1>Plotting<a class="headerlink" href="#module-plot_data" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="plot_data.MakePlot">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">plot_data.</span></code><code class="sig-name descname"><span class="pre">MakePlot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Data_Object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Model_Object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Fit_Object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plot_data.MakePlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the interactive Matplotlib plot</p>
+<p>Takes the input data, model, and fit to plot them in an interactive way, where you can mask points and change the fit in real-time</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Data_Object</strong> (<em>object</em>) – Generated from the Data class in data_model.py</p></li>
+<li><p><strong>Model_Object</strong> (<em>object</em>) – Generated from the Model class in data_model.py</p></li>
+<li><p><strong>Fit_Object</strong> (<em>object</em>) – Generated from the Fit class in data_model.py</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="plot_data.MakePlot.plot_data">
+<code class="sig-name descname"><span class="pre">plot_data</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plot_data.MakePlot.plot_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plots the data and the model onto the figure</p>
+<p>Draws the plot, making sure to clear the axis beforehand and then re-draws with any updates to the data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="plot_data.MakePlot.setup_plot">
+<code class="sig-name descname"><span class="pre">setup_plot</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plot_data.MakePlot.setup_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the framework for the matplotlib plot</p>
+<p>Creates the figure, axis, and defines any interaction on the plot, including clicks and sliders</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="plot_data.MakePlot.update_fit">
+<code class="sig-name descname"><span class="pre">update_fit</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plot_data.MakePlot.update_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the Fit class with a new fit, then runs plot_data()</p>
+<p>This function should be called after any changes to the data or model to reflect those changes on the plot</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="plot_data.MakePlot.update_mask">
+<code class="sig-name descname"><span class="pre">update_mask</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plot_data.MakePlot.update_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the mask by removing or adding the point closest to where the user clicked</p>
+<p>The nearest point is computed using euclidian distance, scaled to the length of the axis. The point will not update if it would cause there to be too few points to fit</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
