@@ -5,6 +5,16 @@ from data_model import Data, Model, Fit
 
 
 class MakePlot(object):
+    """Generates the interactive Matplotlib plot
+
+    Takes the input data, model, and fit to plot them in an interactive way, where you can mask points and change the fit in real-time
+
+    Args:
+        Data_Object (object): Generated from the Data class in data_model.py
+        Model_Object (object): Generated from the Model class in data_model.py
+        Fit_Object (object): Generated from the Fit class in data_model.py
+    """
+
     def __init__(self, Data_Object, Model_Object, Fit_Object):
         # Read in the data
         self.data = Data_Object
@@ -20,15 +30,17 @@ class MakePlot(object):
         plt.show()
 
     def setup_plot(self):
-        """
-        Sets the framework for the matplotlib plot          
+        """Sets the framework for the matplotlib plot 
+
+        Creates the figure, axis, and defines any interaction on the plot, including clicks and sliders         
         """
         self.fig = plt.figure(figsize=(8, 8))
         self.ax = plt.axes([0.05, 0.3, 0.9, 0.65])   # Set axis dimensions here
 
         def onclick(event):
-            """
-            Updates the self.click_x and self.click_y variables upon click, then runs the update_mask() method
+            """Runs this section of code when the user clicks on the figure
+            
+            Updates the self.click_x and self.click_y variables upon click, then runs the update_mask() method if the click was in a valid location
             """
             self.click_x, self.click_y = event.xdata, event.ydata
             print(f'You clicked x = {self.click_x}, y = {self.click_y}')
@@ -54,6 +66,10 @@ class MakePlot(object):
         )
 
         def poly_slider_update(new_deg):
+            """Runs this section of code when the user changes the value on the polynomial degree slider
+            
+            Updates the degree of the polynomial, and then the plot
+            """
             self.Model.change_degree(new_deg)
             self.update_fit()
 
@@ -63,8 +79,9 @@ class MakePlot(object):
         self.poly_slider.on_changed(poly_slider_update)
 
     def plot_data(self):
-        """
-        Plots the data and the model         
+        """Plots the data and the model onto the figure
+
+        Draws the plot, making sure to clear the axis beforehand and then re-draws with any updates to the data        
         """
         self.ax.cla()
         self.ax.plot(self.data.x, self.data.y, color='black', marker='o', ls='None')
@@ -78,8 +95,9 @@ class MakePlot(object):
           
 
     def update_mask(self):
-        """
-        Updates the mask by removing the point closest to where the user clicked        
+        """Updates the mask by removing or adding the point closest to where the user clicked  
+
+        The nearest point is computed using euclidian distance, scaled to the length of the axis. The point will not update if it would cause there to be too few points to fit
         """
         # Compute the pythagorean distance between the click and each point
         x_lim = self.ax.get_xlim()
@@ -103,6 +121,10 @@ class MakePlot(object):
         return
 
     def update_fit(self):
+        """Updates the Fit class with a new fit, then runs plot_data()
+
+        This function should be called after any changes to the data or model to reflect those changes on the plot
+        """
         self.fit = Fit(self.data, self.Model)
         self.plot_data()
 
