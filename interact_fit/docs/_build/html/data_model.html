@@ -158,8 +158,8 @@
 <dl class="py class">
 <dt id="data_model.Data">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">data_model.</span></code><code class="sig-name descname"><span class="pre">Data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yerr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data Storage</p>
-<p>Stores input data</p>
+<dd><p>Class for input data</p>
+<p>Stores input data from user</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -170,6 +170,84 @@
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt id="data_model.Fit">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">data_model.</span></code><code class="sig-name descname"><span class="pre">Fit</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Data_object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Model_object</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to perform a fit</p>
+<p>Fit the data with a specified model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Data_object</strong> (<em>class</em>) – a data object</p></li>
+<li><p><strong>Model_object</strong> (<em>class</em>) – a model object</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="data_model.Fit.run_fit">
+<code class="sig-name descname"><span class="pre">run_fit</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Fit.run_fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run fit</p>
+<p>Performs a fit to the data with a minimization routine, currently uses scipy curve_fit</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The best fit model
+popt (array): The best fit parameter values for the fitting function
+x_model (array): The x array of the model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>y_model (array)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="data_model.Model">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">data_model.</span></code><code class="sig-name descname"><span class="pre">Model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_guess</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">poly_deg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for model</p>
+<p>Generates a model for fitting the data. Currently supports polynomials of arbitrary degreee</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function_type</strong> (<em>string</em>) – type of fitting function. Options are: poly</p></li>
+<li><p><strong>init_guess</strong> (<em>list</em>) – initial guesses for fit</p></li>
+<li><p><strong>poly_deg</strong> (<em>int</em>) – degree of the polynomial</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="data_model.Model.arbitrary_poly">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">arbitrary_poly</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Model.arbitrary_poly" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a polynomial function</p>
+<p>Function called by minimization routine to create polynomial</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>array</em>) – array of x values to compute poly model</p></li>
+<li><p><strong>params</strong> (<em>array</em>) – array of polynomial indices</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The polynomial model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="data_model.Model.change_degree">
+<code class="sig-name descname"><span class="pre">change_degree</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_degree</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_model.Model.change_degree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change polynomial degree</p>
+<p>Function to change degree of the fitting polynomial</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>new_degree</strong> (<em>int</em>) – the specified degree of polynomial</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </div>
